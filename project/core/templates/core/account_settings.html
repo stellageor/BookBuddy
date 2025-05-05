@@ -1,0 +1,159 @@
+{% extends 'base.html' %} {% comment %} {% block title %}Account Settings{%
+endblock %} {% endcomment %} {% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+  <h1 class="text-3xl font-semibold text-center mb-6">Account Settings</h1>
+
+  <!-- Form Container -->
+  <div class="flex gap-8">
+    <!-- Profile Settings Form -->
+    <div class="flex flex-col flex-grow col-6">
+      <h2 class="text-2xl font-semibold mb-4">Personal Information</h2>
+      <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Username Field -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700"
+            >Username</label
+          >
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{ user.username }}"
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+          {% if user_form.username.errors %}
+          <div class="text-red-500 text-sm mt-1">
+            {% for error in user_form.username.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Email Field -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email Address</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="{{ user.email }}"
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+          {% if user_form.email.errors %}
+          <div class="text-red-500 text-sm mt-1">
+            {% for error in user_form.email.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="flex-grow" />
+
+        <!-- Save Profile Button -->
+        <div class="mt-4">
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out"
+          >
+            Save Account Settings
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Password Change Form -->
+    <div class="md:col-span-2 mt-8">
+      <h2 class="text-2xl font-semibold mb-4">Change Password</h2>
+      <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Old Password Field -->
+        <div>
+          <label
+            for="old_password"
+            class="block text-sm font-medium text-gray-700"
+            >Old Password</label
+          >
+          <input
+            type="password"
+            id="old_password"
+            name="old_password"
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+          {% if password_form.old_password.errors %}
+          <div class="text-red-500 text-sm mt-1">
+            {% for error in password_form.old_password.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- New Password Fields -->
+        <div>
+          <label
+            for="new_password1"
+            class="block text-sm font-medium text-gray-700"
+            >New Password</label
+          >
+          <input
+            type="password"
+            id="new_password1"
+            name="new_password1"
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+          {% if password_form.new_password1.errors %}
+          <div class="text-red-500 text-sm mt-1">
+            {% for error in password_form.new_password1.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Confirm New Password Field -->
+        <div>
+          <label
+            for="new_password2"
+            class="block text-sm font-medium text-gray-700"
+            >Confirm New Password</label
+          >
+          <input
+            type="password"
+            id="new_password2"
+            name="new_password2"
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          />
+          {% if password_form.new_password2.errors %}
+          <div class="text-red-500 text-sm mt-1">
+            {% for error in password_form.new_password2.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Save Password Button -->
+        <div class="mt-4">
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out"
+          >
+            Change Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

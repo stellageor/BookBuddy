@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Search - BookBuddy{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold text-center mb-6">Search Books</h1>
+
+<!-- Search Form -->
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow-lg">
+    <form method="GET" action="{% url 'home' %}">
+        <div class="mb-4">
+            <label for="q" class="block text-sm font-medium text-gray-700">Search for books</label>
+            <input type="text" id="q" name="q" class="w-full p-2 border border-gray-300 rounded mt-2" placeholder="Enter book title or author" value="{{ query }}">
+        </div>
+
+        <div class="mb-4">
+            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+            <select name="category" id="category" class="w-full p-2 border border-gray-300 rounded mt-2">
+                {% comment %} <option value="">-- Select Category --</option>
+                <option value="fiction" {% if request.GET.category == 'fiction' %}selected{% endif %}>Fiction</option>
+                <option value="non-fiction" {% if request.GET.category == 'non-fiction' %}selected{% endif %}>Non-Fiction</option>
+                <option value="mystery" {% if request.GET.category == 'mystery' %}selected{% endif %}>Mystery</option>
+                <option value="fantasy" {% if request.GET.category == 'fantasy' %}selected{% endif %}>Fantasy</option> {% endcomment %}
+                
+            <option value="">-- All Categories --</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == selected_category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Search</button>
+    </form>
+</div>
+
+<!-- Search Results -->
+<div class="mt-6">
+    <h2 class="text-xl font-medium">Search Results</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+        {% if books %}
+            {% for book in books %}
+                <div class="bg-white p-4 rounded shadow-lg">
+                    <!-- Book Image -->
+                    <div class="mb-4">
+                        {% load static %}
+                        <img src="{% if book.image %}{{ book.image.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" alt="{{ book.title }}" class="w-full h-48 object-cover rounded-lg">
+                    </div>
+        
+                    <!-- Book Details -->
+                    <h3 class="text-xl font-semibold">{{ book.title }}</h3>
+                    <p class="text-sm text-gray-600">{{ book.author }}</p>
+                    <p class="mt-2 text-sm">{{ book.description|truncatewords:20 }}</p>
+                    
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            {% for category in book.categories.all %}
+                                <span class="bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                    {{ category.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+        
+                    <!-- Book Details Link -->
+                    <div class="mt-4">
+                        <a href="{% url 'book_details' book.id %}" class="text-blue-600 hover:underline">View Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <li>No books found matching your search criteria.</li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

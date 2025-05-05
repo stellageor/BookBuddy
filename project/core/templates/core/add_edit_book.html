@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} {{ book.title }} - BookBuddy{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-semibold text-center mb-6">{{ action }} Book</h1>
+
+<form method="POST" enctype="multipart/form-data" class="max-w-3xl mx-auto space-y-6">
+    {% csrf_token %}
+    
+    <!-- Title Input -->
+    <div>
+        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+        <input type="text" id="title" name="title" value="{{ book.title }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+        {% if form.title.errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.title.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Author Input -->
+    <div>
+        <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
+        <input type="text" id="author" name="author" value="{{ book.author }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+        {% if form.author.errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.author.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Description Textarea -->
+    <div>
+        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea id="description" name="description" rows="4" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>{{ book.description }}</textarea>
+        {% if form.description.errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.description.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Condition Dropdown -->
+    <div>
+        <label for="condition" class="block text-sm font-medium text-gray-700">Condition</label>
+        <select id="condition" name="condition" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+            <option value="New" {% if book.condition == "New" %}selected{% endif %}>New</option>
+            <option value="Good" {% if book.condition == "Good" %}selected{% endif %}>Good</option>
+            <option value="Used" {% if book.condition == "Used" %}selected{% endif %}>Used</option>
+        </select>
+        {% if form.condition.errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.condition.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Categories Multi-select -->
+    <div>
+        <label for="categories" class="block text-sm font-medium text-gray-700">Categories</label>
+        <select id="categories" name="categories" class="w-full p-3 border border-gray-300 rounded-md mt-2" multiple>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category in book.categories.all %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        {% if form.categories.errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.categories.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Location Input -->
+    <div>
+        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+        <input type="text" id="location" name="location" value="{{ book.location }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        {% if form.location.errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.location.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Image Upload -->
+    <div>
+        <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+        <input type="file" id="image" name="image" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        {% if form.image.errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.image.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Save Changes Button -->
+    <div class="mt-6">
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold shadow-md hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out">
+            Save Changes
+        </button>
+    </div>
+    <div class="text-right">
+    {% if action == 'Add' %}
+        <a href="{% url 'my_books' %}" class="text-blue-600 mt-4 inline-block">Back to my books</a>
+    {% else %}
+        <a href="{% url 'book_details' book.id %}" class="text-blue-600 mt-4 inline-block">Back to book details</a>
+    {% endif %}
+    </div>
+</form>
+
+
+{% endblock %}

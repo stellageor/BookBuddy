@@ -1,0 +1,50 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.env/
+# Personal virtual environment
+bookbuddy_venv/
+
+# Python packaging
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Django-specific
+*.log
+*.pot
+
+# Django migrations (they should be tracked, but ignore if they are not necessary)
+migrations/
+
+# Django secret key
+*.env
+
+# # SQLite database files
+# *.sqlite3
+# db.sqlite3
+
+# # Media and Static directories
+# static/
+# media/
+
+# # Django collectstatic
+# /static/
+
+# # IDE-specific files
+# .vscode/
+# .idea/
+# *.swp
+# *.swo
+
+# # OS-specific files
+# .DS_Store
+# Thumbs.db
+

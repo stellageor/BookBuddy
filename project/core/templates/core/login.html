@@ -1,0 +1,70 @@
+{% extends 'base.html' %} {% comment %} {% block title %}Login - BookBuddy{%
+endblock %} {% endcomment %} {% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded shadow-lg">
+  <h2 class="text-2xl font-semibold text-center mb-6">Login to BookBuddy</h2>
+
+  <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+
+    <div class="mb-4">
+      <label for="username" class="block text-sm font-medium text-gray-700"
+        >Username</label
+      >
+      <input
+        type="text"
+        id="username"
+        name="username"
+        class="w-full p-2 border border-gray-300 rounded mt-2"
+        required
+      />
+      {% if form.username.errors %}
+      <div class="text-red-500 text-sm mt-1">
+        {% for error in form.username.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="mb-4">
+      <label for="password" class="block text-sm font-medium text-gray-700"
+        >Password</label
+      >
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="w-full p-2 border border-gray-300 rounded mt-2"
+        required
+      />
+      {% if form.password.errors %}
+      <div class="text-red-500 text-sm mt-1">
+        {% for error in form.password.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    {% if messages %}
+    <div class="bg-red-100 text-red-700 p-4 mb-4 rounded">
+      {% for message in messages %}
+      <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="flex justify-between items-center">
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">
+        Login
+      </button>
+    </div>
+
+    <div class="mt-4 text-center">
+      <a href="{% url 'register' %}" class="text-blue-600"
+        >Don't have an account? Register here</a
+      >
+    </div>
+  </form>
+</div>
+{% endblock %}

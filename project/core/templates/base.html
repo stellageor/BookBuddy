@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}BookBuddy{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-blue-600 text-white py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="{% url 'home' %}">
+          <h1 class="text-xl font-semibold">BookBuddy</h1>
+        </a>
+        <nav>
+          {% comment %}
+          <a href="{% url 'book_search' %}" class="text-white px-4">Home</a> {%
+          endcomment %} {% comment %}
+          <a href="{% url 'book_search' %}" class="text-white px-4">Search</a>
+          {% endcomment %} {% if user.is_authenticated %}
+          <!-- Show Logout Button when User is Authenticated -->
+          <!-- Dropdown Menu for Logged-in Users -->
+          <div class="relative">
+            <button
+              class="flex items-center bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-500"
+              id="userMenuButton"
+            >
+              <span class="mr-2">{{ user.username }}</span>
+              <svg
+                class="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            <!-- Dropdown Content -->
+            <div
+              class="absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10 hidden"
+              id="userMenu"
+            >
+              <a
+                href="{% url 'account_settings' %}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >Account Settings</a
+              >
+              <a
+                href="{% url 'my_books' %}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >My books</a
+              >
+              <form method="POST" action="{% url 'logout' %}" class="block">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="w-full text-left px-4 py-2 text-red-700 hover:bg-gray-200 rounded-md"
+                >
+                  Logout
+                </button>
+              </form>
+            </div>
+          </div>
+          {% else %}
+          <a
+            href="{% url 'login' %}"
+            class="bg-green-600 text-white py-1 px-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-green-700 hover:shadow-xltransition duration-300 ease-in-out"
+            >Login</a
+          >
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6 flex-grow">
+      {% block content %}
+      <!-- Page-specific content will go here -->
+      {% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 text-center">
+      <p>&copy; 2025 BookBuddy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+      // Dropdown Toggle Script
+      document
+        .getElementById("userMenuButton")
+        .addEventListener("click", function () {
+          var menu = document.getElementById("userMenu");
+          menu.classList.toggle("hidden");
+        });
+
+      // Close the dropdown if clicked outside
+      window.addEventListener("click", function (event) {
+        if (!event.target.closest("#userMenuButton")) {
+          document.getElementById("userMenu").classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>

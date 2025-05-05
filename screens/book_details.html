@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookBuddy</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-blue-600 text-white py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="/">
+          <h1 class="text-xl font-semibold">BookBuddy</h1>
+        </a>
+        <nav>
+          <!-- Show Logout Button when User is Authenticated -->
+          <!-- Dropdown Menu for Logged-in Users -->
+          <div class="relative">
+            <button
+              class="flex items-center bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-500"
+              id="userMenuButton"
+            >
+              <span class="mr-2">admin</span>
+              <svg
+                class="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            <!-- Dropdown Content -->
+            <div
+              class="absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10 hidden"
+              id="userMenu"
+            >
+              <a
+                href="/account/settings/"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >Account Settings</a
+              >
+              <a
+                href="/my-books/"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >My books</a
+              >
+              <form method="POST" action="/logout/" class="block">
+                <input
+                  type="hidden"
+                  name="csrfmiddlewaretoken"
+                  value="lZy5i3ROpehOITo3k9iQnCJrmNLddcNydsi9QynMoSuTT9lgjP4tbA46sfGDUtkZ"
+                />
+                <button
+                  type="submit"
+                  class="w-full text-left px-4 py-2 text-red-700 hover:bg-gray-200 rounded-md"
+                >
+                  Logout
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6 flex-grow">
+      <div class="max-w-4xl mx-auto pb-4">
+        <a href="/" class="text-blue-600 hover:underline">Back to Book List</a>
+      </div>
+      <div class="max-w-4xl mx-auto bg-white p-8 rounded shadow-lg">
+        <div class="flex justify-between mb-6">
+          <div class="w-1/3">
+            <img
+              src="/media/books/photo-14.jpg"
+              alt="Find Yourself 1"
+              class="w-full h-auto rounded-lg shadow-lg"
+            />
+          </div>
+
+          <div class="w-2/3 pl-8">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-semibold">Find Yourself 1</h2>
+
+              <a
+                href="/book/2/edit/"
+                class="inline-flex items-center bg-yellow-500 text-white py-1 px-4 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              >
+                Edit
+              </a>
+            </div>
+            <p class="text-md font-medium">
+              Author: <span class="font-normal">Stella</span>
+            </p>
+            <p class="mt-4 text-sm">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry&#x27;s standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was
+              popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span
+                class="bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full"
+              >
+                Fiction
+              </span>
+            </div>
+            <p class="mt-4 text-md font-medium">
+              Condition: <span class="font-normal">New</span>
+            </p>
+            <p class="text-md font-medium">
+              Owner: <span class="font-normal">admin</span>
+            </p>
+            <p class="text-md font-medium">
+              Location: <span class="font-normal">Athens, Greece</span>
+            </p>
+
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">Reviews</h3>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>2 stars</strong>
+                </p>
+                <p>it&#x27;s a nice book but needs an image</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:13 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>3 stars</strong>
+                </p>
+                <p>test</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:16 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p>asfd</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:18 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>2 stars</strong>
+                </p>
+                <p>dfg</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:19 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p>sdf</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:19 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p>sdf</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:26 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p>asdf</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:29 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p>ghj</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:29 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p></p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:31 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p>df</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:31 p.m.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p>
+                  <strong>admin</strong> rated it
+                  <strong>1 stars</strong>
+                </p>
+                <p>dfg</p>
+                <p class="text-sm text-gray-600">
+                  Reviewed on May 4, 2025, 3:33 p.m.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <h3 class="text-xl font-semibold">Leave a Review</h3>
+
+              <form method="POST" action="/book/2/">
+                <input
+                  type="hidden"
+                  name="csrfmiddlewaretoken"
+                  value="lZy5i3ROpehOITo3k9iQnCJrmNLddcNydsi9QynMoSuTT9lgjP4tbA46sfGDUtkZ"
+                />
+
+                <div class="mb-4">
+                  <label
+                    for="rating"
+                    class="block text-sm font-medium text-gray-700"
+                    >Rating</label
+                  >
+                  <select
+                    name="rating"
+                    class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    id="id_rating"
+                  >
+                    <option value="1">1</option>
+
+                    <option value="2">2</option>
+
+                    <option value="3">3</option>
+
+                    <option value="4">4</option>
+
+                    <option value="5">5</option>
+                  </select>
+                  <!-- This renders the rating dropdown -->
+                </div>
+
+                <div class="mb-4">
+                  <label
+                    for="comment"
+                    class="block text-sm font-medium text-gray-700"
+                    >Review</label
+                  >
+                  <textarea
+                    name="comment"
+                    cols="40"
+                    rows="4"
+                    class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Write your review here..."
+                    id="id_comment"
+                  ></textarea>
+                  <!-- This renders the review textarea -->
+                </div>
+
+                <button
+                  type="submit"
+                  class="bg-blue-600 text-white py-2 px-4 rounded mt-4 hover:bg-blue-500"
+                >
+                  Submit Review
+                </button>
+              </form>
+            </div>
+
+            <div class="mt-6 flex justify-end items-center">
+              <a href="/" class="text-blue-600 hover:underline"
+                >Back to Book List</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 text-center">
+      <p>&copy; 2025 BookBuddy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+      // Dropdown Toggle Script
+      document
+        .getElementById("userMenuButton")
+        .addEventListener("click", function () {
+          var menu = document.getElementById("userMenu");
+          menu.classList.toggle("hidden");
+        });
+
+      // Close the dropdown if clicked outside
+      window.addEventListener("click", function (event) {
+        if (!event.target.closest("#userMenuButton")) {
+          document.getElementById("userMenu").classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>

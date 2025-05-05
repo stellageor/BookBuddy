@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookBuddy</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-blue-600 text-white py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="/">
+          <h1 class="text-xl font-semibold">BookBuddy</h1>
+        </a>
+        <nav>
+          <!-- Show Logout Button when User is Authenticated -->
+          <!-- Dropdown Menu for Logged-in Users -->
+          <div class="relative">
+            <button
+              class="flex items-center bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-500"
+              id="userMenuButton"
+            >
+              <span class="mr-2">admin</span>
+              <svg
+                class="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            <!-- Dropdown Content -->
+            <div
+              class="absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10 hidden"
+              id="userMenu"
+            >
+              <a
+                href="/account/settings/"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >Account Settings</a
+              >
+              <a
+                href="/my-books/"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >My books</a
+              >
+              <form method="POST" action="/logout/" class="block">
+                <input
+                  type="hidden"
+                  name="csrfmiddlewaretoken"
+                  value="Vo3ZdVmVcfhJzMg1CRl4vaPYWdo8x45cVHRsJwdDiB34kU6CHt4CLZvCEyu8mx6j"
+                />
+                <button
+                  type="submit"
+                  class="w-full text-left px-4 py-2 text-red-700 hover:bg-gray-200 rounded-md"
+                >
+                  Logout
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6 flex-grow">
+      <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-semibold text-center mb-6">
+          Account Settings
+        </h1>
+
+        <!-- Form Container -->
+        <div class="flex gap-8">
+          <!-- Profile Settings Form -->
+          <div class="flex flex-col flex-grow col-6">
+            <h2 class="text-2xl font-semibold mb-4">Personal Information</h2>
+            <form method="POST" class="space-y-6">
+              <input
+                type="hidden"
+                name="csrfmiddlewaretoken"
+                value="Vo3ZdVmVcfhJzMg1CRl4vaPYWdo8x45cVHRsJwdDiB34kU6CHt4CLZvCEyu8mx6j"
+              />
+
+              <!-- Username Field -->
+              <div>
+                <label
+                  for="username"
+                  class="block text-sm font-medium text-gray-700"
+                  >Username</label
+                >
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value="admin"
+                  class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+
+              <!-- Email Field -->
+              <div>
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-gray-700"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value="admin@example.test"
+                  class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+              <div class="flex-grow" />
+
+              <!-- Save Profile Button -->
+              <div class="mt-4">
+                <button
+                  type="submit"
+                  class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out"
+                >
+                  Save Account Settings
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Password Change Form -->
+          <div class="md:col-span-2 mt-8">
+            <h2 class="text-2xl font-semibold mb-4">Change Password</h2>
+            <form method="POST" class="space-y-6">
+              <input
+                type="hidden"
+                name="csrfmiddlewaretoken"
+                value="Vo3ZdVmVcfhJzMg1CRl4vaPYWdo8x45cVHRsJwdDiB34kU6CHt4CLZvCEyu8mx6j"
+              />
+
+              <!-- Old Password Field -->
+              <div>
+                <label
+                  for="old_password"
+                  class="block text-sm font-medium text-gray-700"
+                  >Old Password</label
+                >
+                <input
+                  type="password"
+                  id="old_password"
+                  name="old_password"
+                  class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+
+              <!-- New Password Fields -->
+              <div>
+                <label
+                  for="new_password1"
+                  class="block text-sm font-medium text-gray-700"
+                  >New Password</label
+                >
+                <input
+                  type="password"
+                  id="new_password1"
+                  name="new_password1"
+                  class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+
+              <!-- Confirm New Password Field -->
+              <div>
+                <label
+                  for="new_password2"
+                  class="block text-sm font-medium text-gray-700"
+                  >Confirm New Password</label
+                >
+                <input
+                  type="password"
+                  id="new_password2"
+                  name="new_password2"
+                  class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+
+              <!-- Save Password Button -->
+              <div class="mt-4">
+                <button
+                  type="submit"
+                  class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out"
+                >
+                  Change Password
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 text-center">
+      <p>&copy; 2025 BookBuddy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+      // Dropdown Toggle Script
+      document
+        .getElementById("userMenuButton")
+        .addEventListener("click", function () {
+          var menu = document.getElementById("userMenu");
+          menu.classList.toggle("hidden");
+        });
+
+      // Close the dropdown if clicked outside
+      window.addEventListener("click", function (event) {
+        if (!event.target.closest("#userMenuButton")) {
+          document.getElementById("userMenu").classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>

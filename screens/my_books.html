@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookBuddy</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-blue-600 text-white py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="/">
+          <h1 class="text-xl font-semibold">BookBuddy</h1>
+        </a>
+        <nav>
+          <!-- Show Logout Button when User is Authenticated -->
+          <!-- Dropdown Menu for Logged-in Users -->
+          <div class="relative">
+            <button
+              class="flex items-center bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-500"
+              id="userMenuButton"
+            >
+              <span class="mr-2">admin</span>
+              <svg
+                class="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            <!-- Dropdown Content -->
+            <div
+              class="absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10 hidden"
+              id="userMenu"
+            >
+              <a
+                href="/account/settings/"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >Account Settings</a
+              >
+              <a
+                href="/my-books/"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md"
+                >My books</a
+              >
+              <form method="POST" action="/logout/" class="block">
+                <input
+                  type="hidden"
+                  name="csrfmiddlewaretoken"
+                  value="6mE9FjayDBoobJK6aX0wkW6L9A4JTR12YPoddOGwCfBtmZHj9DM98Urqf2Z9A8yt"
+                />
+                <button
+                  type="submit"
+                  class="w-full text-left px-4 py-2 text-red-700 hover:bg-gray-200 rounded-md"
+                >
+                  Logout
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6 flex-grow">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-semibold">My Books</h2>
+        <a
+          href="/add-book/"
+          class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+          >Add New Book</a
+        >
+      </div>
+
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+        <div class="bg-white p-4 rounded shadow-lg">
+          <!-- Book Image -->
+          <div class="mb-4">
+            <img
+              src="/static/images/placeholder.jpg"
+              alt="Cooking for Beginners12"
+              class="w-full h-48 object-cover rounded-lg"
+            />
+          </div>
+
+          <!-- Book Details -->
+          <h3 class="text-xl font-semibold">Cooking for Beginners12</h3>
+          <p class="text-sm text-gray-600">Stella</p>
+          <p class="mt-2 text-sm">
+            Discover the joy of cooking with this beautifully crafted cookbook,
+            filled with over 100 delicious, easy-to-follow recipes for every
+            skill …
+          </p>
+
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span
+              class="bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full"
+            >
+              Cooking
+            </span>
+          </div>
+
+          <!-- Book Details Link -->
+          <div class="mt-4">
+            <a href="/book/1/" class="text-blue-600 hover:underline"
+              >View Details</a
+            >
+          </div>
+
+          <div class="flex space-x-2 mt-4">
+            <a
+              href="/book/1/edit/"
+              class="bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600 transition"
+              >Edit</a
+            >
+            <a
+              href="/delete-book/1/"
+              class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition"
+              >Delete</a
+            >
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded shadow-lg">
+          <!-- Book Image -->
+          <div class="mb-4">
+            <img
+              src="/media/books/photo-14.jpg"
+              alt="Find Yourself 1"
+              class="w-full h-48 object-cover rounded-lg"
+            />
+          </div>
+
+          <!-- Book Details -->
+          <h3 class="text-xl font-semibold">Find Yourself 1</h3>
+          <p class="text-sm text-gray-600">Stella</p>
+          <p class="mt-2 text-sm">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry&#x27;s standard dummy …
+          </p>
+
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span
+              class="bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full"
+            >
+              Fiction
+            </span>
+          </div>
+
+          <!-- Book Details Link -->
+          <div class="mt-4">
+            <a href="/book/2/" class="text-blue-600 hover:underline"
+              >View Details</a
+            >
+          </div>
+
+          <div class="flex space-x-2 mt-4">
+            <a
+              href="/book/2/edit/"
+              class="bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600 transition"
+              >Edit</a
+            >
+            <a
+              href="/delete-book/2/"
+              class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition"
+              >Delete</a
+            >
+          </div>
+        </div>
+      </ul>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 text-center">
+      <p>&copy; 2025 BookBuddy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+      // Dropdown Toggle Script
+      document
+        .getElementById("userMenuButton")
+        .addEventListener("click", function () {
+          var menu = document.getElementById("userMenu");
+          menu.classList.toggle("hidden");
+        });
+
+      // Close the dropdown if clicked outside
+      window.addEventListener("click", function (event) {
+        if (!event.target.closest("#userMenuButton")) {
+          document.getElementById("userMenu").classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>
