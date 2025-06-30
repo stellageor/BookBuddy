@@ -11,7 +11,7 @@
     <!-- Title Input -->
     <div>
         <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-        <input type="text" id="title" name="title" value="{{ book.title }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+        <input type="text" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
         {% if form.title.errors %}
             <div class="text-red-500 text-sm mt-1">
                 {% for error in form.title.errors %}
@@ -24,7 +24,7 @@
     <!-- Author Input -->
     <div>
         <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-        <input type="text" id="author" name="author" value="{{ book.author }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+        <input type="text" id="author" name="author" value="{{ form.author.value|default_if_none:'' }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
         {% if form.author.errors %}
             <div class="text-red-500 text-sm mt-1">
                 {% for error in form.author.errors %}
@@ -37,7 +37,7 @@
     <!-- Description Textarea -->
     <div>
         <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-        <textarea id="description" name="description" rows="4" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>{{ book.description }}</textarea>
+        <textarea id="description" name="description" rows="4" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>{{ form.description.value|default_if_none:'' }}</textarea>
         {% if form.description.errors %}
             <div class="text-red-500 text-sm mt-1">
                 {% for error in form.description.errors %}
@@ -51,9 +51,9 @@
     <div>
         <label for="condition" class="block text-sm font-medium text-gray-700">Condition</label>
         <select id="condition" name="condition" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-            <option value="New" {% if book.condition == "New" %}selected{% endif %}>New</option>
-            <option value="Good" {% if book.condition == "Good" %}selected{% endif %}>Good</option>
-            <option value="Used" {% if book.condition == "Used" %}selected{% endif %}>Used</option>
+            <option value="New" {% if form.condition.value == "New" %}selected{% endif %}>New</option>
+            <option value="Good" {% if form.condition.value == "Good" %}selected{% endif %}>Good</option>
+            <option value="Used" {% if form.condition.value == "Used" %}selected{% endif %}>Used</option>
         </select>
         {% if form.condition.errors %}
             <div class="text-red-500 text-sm mt-1">
@@ -69,7 +69,7 @@
         <label for="categories" class="block text-sm font-medium text-gray-700">Categories</label>
         <select id="categories" name="categories" class="w-full p-3 border border-gray-300 rounded-md mt-2" multiple>
             {% for category in categories %}
-                <option value="{{ category.id }}" {% if category in book.categories.all %}selected{% endif %}>{{ category.name }}</option>
+                <option value="{{ category.id }}" {% if category.id|stringformat:"s" in form.categories.value|stringformat:"s"|join:" " %}selected{% endif %}>{{ category.name }}</option>
             {% endfor %}
         </select>
         {% if form.categories.errors %}
@@ -84,7 +84,7 @@
     <!-- Location Input -->
     <div>
         <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
-        <input type="text" id="location" name="location" value="{{ book.location }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <input type="text" id="location" name="location" value="{{ form.location.value|default_if_none:'' }}" class="w-full p-3 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         {% if form.location.errors %}
             <div class="text-red-500 text-sm mt-1">
                 {% for error in form.location.errors %}

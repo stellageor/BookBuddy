@@ -1,0 +1,177 @@
+{% extends "base.html" %} {% block content %}
+<div class="max-w-5xl mx-auto p-6 space-y-12">
+  <!-- Incoming Requests -->
+  <section>
+    <h2 class="text-2xl font-semibold mb-4">Requests to Borrow My Books</h2>
+    {% if incoming_requests %}
+    <table class="w-full table-auto border-collapse border">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-4 py-2">Book</th>
+          <th class="border px-4 py-2">Borrower</th>
+          <th class="border px-4 py-2">Phone</th>
+          <th class="border px-4 py-2">City</th>
+          <th class="border px-4 py-2">Date</th>
+          <th />
+          <th />
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in incoming_requests %}
+        <tr>
+          <td class="border px-4 py-2">{{ request.book.title }}</td>
+          <td class="border px-4 py-2">{{ request.user.username }}</td>
+          <td class="border px-4 py-2">{{ request.phone }}</td>
+          <td class="border px-4 py-2">{{ request.city }}</td>
+          <td class="border px-4 py-2">
+            {{ request.created_at|date:"Y-m-d H:i" }}
+          </td>
+          <td class="border px-4 py-2">
+            {% if request.book.status == 'borrowed' %}
+            <form
+              action="{% url 'return_book' request.book.id %}"
+              method="POST"
+            >
+              {% csrf_token %}
+              <button
+                class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+              >
+                Return
+              </button>
+            </form>
+            {% else %}
+            <span class="text-sm text-gray-500 italic">Returned</span>
+            {% endif %}
+          </td>
+          <td class="border px-4 py-2 text-center">
+            <button
+              onclick="openUserInfoModal({{ request.user.id }}, '{{ request.user.username }}', '{{ request.user.email }}', '{{ request.user.userprofile.phone }}', '{{ request.user.userprofile.address }}', '{{ request.user.userprofile.city }}', '{{ request.user.userprofile.postal_code }}')"
+              class="text-blue-600 hover:underline"
+            >
+              View Borrower Info
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-gray-500">No incoming borrowing requests yet.</p>
+    {% endif %}
+  </section>
+
+  <!-- My Borrowing Requests -->
+  <section>
+    <h2 class="text-2xl font-semibold mb-4">Books I Have Borrowed</h2>
+    {% if my_requests %}
+    <table class="w-full table-auto border-collapse border">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-4 py-2">Book</th>
+          <th class="border px-4 py-2">Owner</th>
+          <th class="border px-4 py-2">Address</th>
+          <th class="border px-4 py-2">City</th>
+          <th class="border px-4 py-2">Date</th>
+          <th />
+          <th />
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in my_requests %}
+        <tr>
+          <td class="border px-4 py-2">{{ request.book.title }}</td>
+          <td class="border px-4 py-2">{{ request.book.user.username }}</td>
+          <td class="border px-4 py-2">{{ request.address }}</td>
+          <td class="border px-4 py-2">{{ request.city }}</td>
+          <td class="border px-4 py-2">
+            {{ request.created_at|date:"Y-m-d H:i" }}
+          </td>
+          <td class="border px-4 py-2">
+            {{ request.created_at|date:"Y-m-d H:i" }}
+          </td>
+          <td class="border px-4 py-2">
+            {% if request.book.status == 'borrowed' %}
+            <form
+              action="{% url 'return_book' request.book.id %}"
+              method="POST"
+            >
+              {% csrf_token %}
+              <button
+                class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+              >
+                Return
+              </button>
+            </form>
+            {% else %}
+            <span class="text-sm text-gray-500 italic">Returned</span>
+            {% endif %}
+          </td>
+          <td class="border px-4 py-2 text-center">
+            <button
+              onclick="openUserInfoModal({{ request.user.id }}, '{{ request.user.username }}', '{{ request.user.email }}', '{{ request.user.userprofile.phone }}', '{{ request.user.userprofile.address }}', '{{ request.user.userprofile.city }}', '{{ request.user.userprofile.postal_code }}')"
+              class="text-blue-600 hover:underline"
+            >
+              View Owner Info
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-gray-500">You haven't borrowed any books yet.</p>
+    {% endif %}
+  </section>
+  <div
+    id="userInfoModal"
+    class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+  >
+    <!-- Modal Box -->
+    <div class="bg-white p-6 rounded shadow-md max-w-md w-full relative">
+      <div class="flex justify-between mb-4">
+        <h2 class="text-xl font-semibold">User Information</h2>
+        <button
+          onclick="closeUserInfoModal()"
+          class="text-2xl text-gray-500 hover:text-black"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="space-y-2">
+        <p><strong>User:</strong> <span id="modalUser"></span></p>
+        <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+        <p><strong>Phone:</strong> <span id="modalPhone"></span></p>
+        <p><strong>Address:</strong> <span id="modalAddress"></span></p>
+        <p><strong>City:</strong> <span id="modalCity"></span></p>
+        <p><strong>Postal Code:</strong> <span id="modalPostal"></span></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    function openUserInfoModal(
+      userId,
+      username,
+      email,
+      phone,
+      address,
+      city,
+      postalCode
+    ) {
+      document.getElementById("modalUser").textContent = username;
+      document.getElementById("modalEmail").textContent = email;
+      document.getElementById("modalPhone").textContent = phone;
+      document.getElementById("modalAddress").textContent = address;
+      document.getElementById("modalCity").textContent = city;
+      document.getElementById("modalPostal").textContent = postalCode;
+
+      document.getElementById("userInfoModal").classList.remove("hidden");
+      document.getElementById("userInfoModal").classList.add("flex");
+    }
+
+    function closeUserInfoModal() {
+      document.getElementById("userInfoModal").classList.remove("flex");
+      document.getElementById("userInfoModal").classList.add("hidden");
+    }
+  </script>
+</div>
+{% endblock %}

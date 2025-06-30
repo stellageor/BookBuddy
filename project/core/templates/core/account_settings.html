@@ -4,156 +4,150 @@ endblock %} {% endcomment %} {% block content %}
   <h1 class="text-3xl font-semibold text-center mb-6">Account Settings</h1>
 
   <!-- Form Container -->
-  <div class="flex gap-8">
-    <!-- Profile Settings Form -->
-    <div class="flex flex-col flex-grow col-6">
-      <h2 class="text-2xl font-semibold mb-4">Personal Information</h2>
-      <form method="POST" class="space-y-6">
-        {% csrf_token %}
+  <div class="flex flex-col gap-8">
+    <form method="POST" class="space-y-6">
+      {% csrf_token %}
 
-        <!-- Username Field -->
-        <div>
-          <label for="username" class="block text-sm font-medium text-gray-700"
-            >Username</label
-          >
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value="{{ user.username }}"
-            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          {% if user_form.username.errors %}
-          <div class="text-red-500 text-sm mt-1">
-            {% for error in user_form.username.errors %}
-            <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
+      <!-- Username Field -->
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-700"
+          >Username</label
+        >
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value="{{ user_form.username.value|default_if_none:'' }}"
+          class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          required
+        />
+        {% if user_form.username.errors %}
+        <div class="text-red-500 text-sm mt-1">
+          {% for error in user_form.username.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
         </div>
+        {% endif %}
+      </div>
 
-        <!-- Email Field -->
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700"
-            >Email Address</label
-          >
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value="{{ user.email }}"
-            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          {% if user_form.email.errors %}
-          <div class="text-red-500 text-sm mt-1">
-            {% for error in user_form.email.errors %}
-            <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
+      <!-- Email Field -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700"
+          >Email Address</label
+        >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="{{ user_form.email.value|default_if_none:'' }}"
+          class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          required
+        />
+        {% if user_form.email.errors %}
+        <div class="text-red-500 text-sm mt-1">
+          {% for error in user_form.email.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
         </div>
-        <div class="flex-grow" />
+        {% endif %}
+      </div>
 
-        <!-- Save Profile Button -->
-        <div class="mt-4">
-          <button
-            type="submit"
-            class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out"
-          >
-            Save Account Settings
-          </button>
+      <h2 class="text-2xl font-semibold mb-4">Borrower Information</h2>
+      <!-- Phone Field -->
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700"
+          >Phone Number</label
+        >
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value="{{ profile_form.phone.value|default_if_none:'' }}"
+          class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+        {% if profile_form.phone.errors %}
+        <div class="text-red-500 text-sm mt-1">
+          {% for error in profile_form.phone.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
         </div>
-      </form>
-    </div>
+        {% endif %}
+      </div>
 
-    <!-- Password Change Form -->
-    <div class="md:col-span-2 mt-8">
-      <h2 class="text-2xl font-semibold mb-4">Change Password</h2>
-      <form method="POST" class="space-y-6">
-        {% csrf_token %}
-
-        <!-- Old Password Field -->
-        <div>
-          <label
-            for="old_password"
-            class="block text-sm font-medium text-gray-700"
-            >Old Password</label
-          >
-          <input
-            type="password"
-            id="old_password"
-            name="old_password"
-            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          {% if password_form.old_password.errors %}
-          <div class="text-red-500 text-sm mt-1">
-            {% for error in password_form.old_password.errors %}
-            <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
+      <!-- Address Field -->
+      <div>
+        <label for="address" class="block text-sm font-medium text-gray-700"
+          >Address</label
+        >
+        <input
+          type="text"
+          id="address"
+          name="address"
+          value="{{ profile_form.address.value|default_if_none:'' }}"
+          class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+        {% if profile_form.address.errors %}
+        <div class="text-red-500 text-sm mt-1">
+          {% for error in profile_form.address.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
         </div>
+        {% endif %}
+      </div>
 
-        <!-- New Password Fields -->
-        <div>
-          <label
-            for="new_password1"
-            class="block text-sm font-medium text-gray-700"
-            >New Password</label
-          >
-          <input
-            type="password"
-            id="new_password1"
-            name="new_password1"
-            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          {% if password_form.new_password1.errors %}
-          <div class="text-red-500 text-sm mt-1">
-            {% for error in password_form.new_password1.errors %}
-            <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
+      <!-- City Field -->
+      <div>
+        <label for="city" class="block text-sm font-medium text-gray-700"
+          >City</label
+        >
+        <input
+          type="text"
+          id="city"
+          name="city"
+          value="{{ profile_form.city.value|default_if_none:'' }}"
+          class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+        {% if profile_form.city.errors %}
+        <div class="text-red-500 text-sm mt-1">
+          {% for error in profile_form.city.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
         </div>
+        {% endif %}
+      </div>
 
-        <!-- Confirm New Password Field -->
-        <div>
-          <label
-            for="new_password2"
-            class="block text-sm font-medium text-gray-700"
-            >Confirm New Password</label
-          >
-          <input
-            type="password"
-            id="new_password2"
-            name="new_password2"
-            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          {% if password_form.new_password2.errors %}
-          <div class="text-red-500 text-sm mt-1">
-            {% for error in password_form.new_password2.errors %}
-            <p>{{ error }}</p>
-            {% endfor %}
-          </div>
-          {% endif %}
+      <!-- Postal Code Field -->
+      <div>
+        <label for="postal_code" class="block text-sm font-medium text-gray-700"
+          >Postal Code</label
+        >
+        <input
+          type="text"
+          id="postal_code"
+          name="postal_code"
+          value="{{ profile_form.postal_code.value|default_if_none:'' }}"
+          maxlength="10"
+          class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+        {% if profile_form.postal_code.errors %}
+        <div class="text-red-500 text-sm mt-1">
+          {% for error in profile_form.postal_code.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
         </div>
+        {% endif %}
+      </div>
 
-        <!-- Save Password Button -->
-        <div class="mt-4">
-          <button
-            type="submit"
-            class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out"
-          >
-            Change Password
-          </button>
-        </div>
-      </form>
-    </div>
+      <!-- Submit Button -->
+      <div class="mt-4">
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out"
+        >
+          Save Account Settings
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 {% endblock %}

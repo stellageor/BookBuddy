@@ -56,17 +56,40 @@ BookBuddy{% endblock %} {% endcomment %} {% block content %}
       <p class="text-md font-medium">
         Owner: <span class="font-normal">{{ book.user }}</span>
       </p>
-      <p class="text-md font-medium">
+      <p class="text-md font-medium mb-4">
         Location: <span class="font-normal">{{ book.location }}</span>
       </p>
+      <div class="mb-1">
+      <span class="inline-block px-2 py-1 rounded text-xs font-semibold 
+    {% if book.status == 'available' %}
+        bg-green-100 text-green-800
+    {% elif book.status == 'borrowed' %}
+        bg-yellow-100 text-yellow-800
+    {% else %}
+        bg-red-100 text-red-800
+    {% endif %}
+">
+    {{ book.get_status_display }}
+</span></div>
+
+    {% if book.status == 'available' and book.user.id != user.id %}
+      <button
+        id="openModalBtn"
+        class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+      >
+        Ask to Borrow
+      </button>
+    {% endif %}
 
       <div class="mt-6">
-        <h3 class="text-xl font-semibold">Reviews</h3>
+        <h3 class="text-xl font-semibold mb-3">
+          Reviews {{ average_rating|floatformat:1 }} / 5 ⭐️
+        </h3>
         {% for review in reviews %}
         <div class="mb-4">
           <p>
             <strong>{{ review.user.username }}</strong> rated it
-            <strong>{{ review.rating }} stars</strong>
+            <strong>{{ review.rating }} ⭐️</strong>
           </p>
           <p>{{ review.comment }}</p>
           <p class="text-sm text-gray-600">
@@ -110,6 +133,9 @@ BookBuddy{% endblock %} {% endcomment %} {% block content %}
         {% else %}
         <p class="text-sm text-red-500">
           You must be logged in to leave a review.
+          <a href="{% url 'login' %}" class="text-blue-600 hover:underline">
+            Login now!
+          </a>
         </p>
         {% endif %}
       </div>
@@ -121,5 +147,123 @@ BookBuddy{% endblock %} {% endcomment %} {% block content %}
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div
+    id="myModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden"
+  >
+    <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md relative">
+      <div class="flex">
+        <div class="pr-4">
+          <h2 class="text-2xl font-semibold">Address Details</h2>
+          <div class="text-sm text-gray-600 mb-4">
+            Fill your address details below to proceed with borrowing the book.
+          </div>
+        </div>
+        <!-- Close Button -->
+         <div>
+          <button
+            id="closeModalBtn"
+            class="text-gray-500 hover:text-gray-800 text-2xl"
+          >
+            &times;
+          </button>
+        </div>
+      </div>
+
+        <form method="POST" action="{% url 'create_borrowing' book.id %}" class="space-y-4">
+          {% csrf_token %}
+
+          <!-- Phone Number -->
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-700"
+              >Phone Number</label
+            >
+            <input
+              type="tel"
+              autofocus
+              name="phone"
+              id="phone"
+              required
+              class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <!-- Address -->
+          <div>
+            <label for="address" class="block text-sm font-medium text-gray-700"
+              >Address</label
+            >
+            <input
+              type="text"
+              name="address"
+              id="address"
+              required
+              class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <!-- City -->
+          <div>
+            <label for="city" class="block text-sm font-medium text-gray-700"
+              >City</label
+            >
+            <input
+              type="text"
+              name="city"
+              id="city"
+              required
+              class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <!-- Postal Code -->
+          <div>
+            <label
+              for="postal_code"
+              class="block text-sm font-medium text-gray-700"
+              >Postal Code</label
+            >
+            <input
+              type="text"
+              name="postal_code"
+              id="postal_code"
+              required
+              pattern="[0-9]{5}"
+              maxlength="5"
+              class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-right pt-4">
+            <button
+              type="submit"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const openBtn = document.getElementById("openModalBtn");
+      const closeBtn = document.getElementById("closeModalBtn");
+      const modal = document.getElementById("myModal");
+
+      openBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+      closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+
+      // Optional: click outside modal to close
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.add("hidden");
+        }
+      });
+    </script>
+  </div>
+  {% endblock %}
 </div>
-{% endblock %}

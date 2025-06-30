@@ -1,10 +1,17 @@
 {% extends 'base.html' %} {% comment %} {% block title %}Delete Book{% endblock
 %} {% endcomment %} {% block content %}
-<h2>Are you sure you want to delete the book: "{{ book.title }}"?</h2>
+<h2 class="mb-3">
+  Are you sure you want to delete the book: "{{ book.title }}"?
+</h2>
 
 <form method="POST">
   {% csrf_token %}
-  <button type="submit" class="btn btn-danger">Yes, Delete</button>
-  <a href="{% url 'my_books' %}" class="btn btn-secondary">Cancel</a>
+  <button
+    type="submit"
+    class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition"
+  >
+    Yes, Delete
+  </button>
+  <a href="{% url 'my_books' %}" class="btn btn-secondary pl-2">Cancel</a>
 </form>
 {% endblock %}

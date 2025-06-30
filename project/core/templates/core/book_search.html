@@ -15,21 +15,25 @@
 
         <div class="mb-4">
             <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-            <select name="category" id="category" class="w-full p-2 border border-gray-300 rounded mt-2">
+            <select name="category" id="category" class="w-full p-2 border border-gray-300 rounded mt-2" value="{{ category.id }}">
                 {% comment %} <option value="">-- Select Category --</option>
                 <option value="fiction" {% if request.GET.category == 'fiction' %}selected{% endif %}>Fiction</option>
                 <option value="non-fiction" {% if request.GET.category == 'non-fiction' %}selected{% endif %}>Non-Fiction</option>
                 <option value="mystery" {% if request.GET.category == 'mystery' %}selected{% endif %}>Mystery</option>
                 <option value="fantasy" {% if request.GET.category == 'fantasy' %}selected{% endif %}>Fantasy</option> {% endcomment %}
                 
-            <option value="">-- All Categories --</option>
-            {% for category in categories %}
-                <option value="{{ category.id }}" {% if category.id == selected_category.id %}selected{% endif %}>{{ category.name }}</option>
-            {% endfor %}
+                <option value="">-- All Categories --</option>
+                {% for c in categories %}
+                    <option value="{{ c.id }}" {% if c.id == category.id %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
             </select>
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Search</button>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors duration-200">Search</button>
+        <div class="w-full text-center mt-2">
+
+        <a href="{% url 'home' %}" class="text-red-600 bg-red-100 hover:bg-red-600 hover:text-white px-2 py-1 rounded transition-colors duration-200">Clear Search</a>
+        </div>
     </form>
 </div>
 
