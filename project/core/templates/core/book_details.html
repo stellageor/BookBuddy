@@ -93,9 +93,9 @@ BookBuddy{% endblock %} {% endcomment %} {% block content %}
       <div class="mt-6">
           <h3 class="text-xl font-semibold mb-3">
             Reviews 
-            {{ if average_rating }}
+            {% if average_rating %}
               {{ average_rating|floatformat:1 }} / 5 ⭐️
-            {{ endif }}
+            {% endif %}
           </h3>
         {% for review in reviews %}
         <div class="mb-4">
