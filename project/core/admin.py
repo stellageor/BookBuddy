@@ -1,12 +1,10 @@
 from django.contrib import admin
-from .models import Profile, BookCategory, Book, Message, Review
+from .models import UserProfile, BookCategory, Book, Review, Borrowing
 
-# Register your models here.
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'bio', 'location')  # Display user, bio, and location in the list
-    search_fields = ('user__username', 'location')  # Allow search by username or location
-
-admin.site.register(Profile, ProfileAdmin)
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'user__email', 'phone', 'city', 'postal_code')
+    search_fields = ('user__username', 'user__email', 'phone', 'city')
 
 # Register the Book model
 class BookAdmin(admin.ModelAdmin):
@@ -22,14 +20,6 @@ class BookAdmin(admin.ModelAdmin):
 
 admin.site.register(Book, BookAdmin)
 
-# Register the Message model
-class MessageAdmin(admin.ModelAdmin):
-    list_display = ('sender', 'receiver', 'content', 'sent_at')  # Display sender, receiver, message, and time sent
-    search_fields = ('sender__username', 'receiver__username', 'content')  # Search by sender, receiver, or message content
-    list_filter = ('sent_at',)  # Filter by time sent
-
-admin.site.register(Message, MessageAdmin)
-
 # Register the Review model
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('user', 'book', 'rating', 'created_at')  # Display user, book, rating, and review date
@@ -38,3 +28,10 @@ class ReviewAdmin(admin.ModelAdmin):
 
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(BookCategory)
+
+class BorrowingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'book', 'phone', 'city', 'postal_code', 'created_at')
+    search_fields = ('user__username', 'book__title', 'city', 'postal_code')
+    list_filter = ('created_at', 'city')
+    
+admin.site.register(Borrowing)

@@ -7,7 +7,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('account/settings/', views.account_settings, name='account_settings'),
-    path('profile/settings/', views.profile_settings, name='profile_settings'),
+    path('account/chang-password/', views.change_password, name='change_password'),
     
     path('my-books/', views.my_books, name='my_books'),
     path('add-book/', views.add_book, name='add_book'),
@@ -15,5 +15,8 @@ urlpatterns = [
     path('', views.book_search, name='home'),
     path('book/<int:book_id>/', views.book_details, name='book_details'),
     path('book/<int:book_id>/edit/', views.edit_book, name='edit_book'),  # URL for editing a book
-    # path('search/', views.book_search, name='book_search'),
+
+    path('books/<int:book_id>/borrow/', views.create_borrowing, name='create_borrowing'),
+    path('my-borrowings/', views.my_borrowings_view, name='my_borrowings'),path('books/<int:book_id>/return/', views.return_book, name='return_book'),
+
 ]
