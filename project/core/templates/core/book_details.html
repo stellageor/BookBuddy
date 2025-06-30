@@ -73,18 +73,30 @@ BookBuddy{% endblock %} {% endcomment %} {% block content %}
 </span></div>
 
     {% if book.status == 'available' and book.user.id != user.id %}
-      <button
-        id="openModalBtn"
-        class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-      >
-        Ask to Borrow
-      </button>
+      {% if user.is_authenticated %}
+        <button
+          id="openModalBtn"
+          class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+        >
+          Ask to Borrow
+        </button>
+      {% else %}
+      <p class="text-sm text-red-500">
+        You must be logged in to borrow the book.
+        <a href="{% url 'login' %}" class="text-blue-600 hover:underline">
+          Login now!
+        </a>
+      </p>
+      {% endif %}
     {% endif %}
 
       <div class="mt-6">
-        <h3 class="text-xl font-semibold mb-3">
-          Reviews {{ average_rating|floatformat:1 }} / 5 ⭐️
-        </h3>
+          <h3 class="text-xl font-semibold mb-3">
+            Reviews 
+            {{ if average_rating }}
+              {{ average_rating|floatformat:1 }} / 5 ⭐️
+            {{ endif }}
+          </h3>
         {% for review in reviews %}
         <div class="mb-4">
           <p>
